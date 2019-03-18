@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"><!-- 
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"> -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="{{ url_for('static', filename='css/material-kit.css') }}" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <!-- <link href="{{ url_for('static', filename='demo/demo.css') }}" rel="stylesheet" /> -->
+</head>
+<script type="text/javascript" src="{{ url_for('static', filename='js/plugins/moment.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<body >
+  <div class="page-header header-filter" style="background-image: url('{{ url_for('static', filename='img/Crop.jpg') }}'); background-size: cover; background-position: top center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 ml-auto mr-auto" >
+          <div class="card " >
+              <div class="card-header card-header-rose text-center">
+                <h4 class="card-title">Cost &amp; Yield Analysis</h4>
+              </div>
+              <br>
+              <div class="card-body text-center">
+                <div class="row">
+                  <div class="col-md-12"> 
+                    <h3>{{name}}</h3>
+                    <canvas id="wheat" ></canvas>
+                    <p class="card-text"><b>Estimated Production Yield:</b>1637.38<br>
+                      <b>Estimated Cost of Seeds:</b> {{seed_price}} <br>
+                      <b>Estimated MSP: </b> {{msp}}
+                    </p> 
+                  </div>
+                </div>
+                <br>
+                <div class="footer"><a href="http://localhost:5000"><button class="btn btn-primary  ">Home</button></a></div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="{{ url_for('static', filename='js/core/popper.min.js') }}" type="text/javascript"></script>
+  <script src="{{ url_for('static', filename='js/core/bootstrap-material-design.min.js') }}" type="text/javascript"></script>
+  <script src="{{ url_for('static', filename='js/material-kit.js') }}" type="text/javascript"></script>
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script>
+      psuedo = Math.floor((Math.random() * 3) + 1) - 1;
+      traindatas = [{"1961":187058,"1962":170581,"1963":9130,"1964":83758,"1965":14556,"1966":148063,"1967":15470,"1968":131034,"1969":23266,"1970":492362,"1971":13958,"1972":34966,"1973":123230,"1974":9523,"1975":13521,"1976":17109,"1977":653948,"1978":27037,"1979":157442,"1980":93103,"1981":112424,"1982":19623,"1983":108808,"1984":95384,"1985":491142,"1986":8874,"1987":126592,"1988":337142,"1989":578444,"1990":152987,"1991":78883,"1992":23795,"1993":13763,"1994":100000,"1995":18438,"1996":106593,"1997":298333,"1998":300985,"1999":32857,"2000":12935,"2001":729315,"2002":29230},
+                     {"1961":609921,"1962":154456,"1963":8795,"1964":26160,"1965":13866,"1966":16134,"1967":20405,"1968":31176,"1969":37670,"1970":192584,"1971":108695,"1972":95522,"1973":207999,"1974":87500,"1975":423318,"1976":251666,"1977":33072,"1978":16316,"1979":15945,"1980":709126,"1981":255155,"1982":257500,"1983":349829,"1984":84579,"1985":12689,"1986":159290,"1987":115731,"1988":163253,"1989":12141,"1990":437200,"1991":27784,"1992":190543,"1993":16986,"1994":94736,"1995":511627,"1996":162720,"1997":10601,"1998":13799,"1999":13065,"2000":16045,"2001":279915,"2002":77419},
+                     {"1961":108882,"1962":202500,"1963":12031,"1964":9022,"1965":149256,"1966":19397,"1967":129148,"1968":108695,"1969":14563,"1970":14698,"1971":11585,"1972":304802,"1973":15498,"1974":17704,"1975":87500,"1976":10611,"1977":26092,"1978":150548,"1979":100000,"1980":30736,"1981":9399,"1982":103333,"1983":14997,"1984":8313,"1985":161101,"1986":19972,"1987":26187,"1988":16912,"1989":14337,"1990":20588,"1991":101204,"1992":169912,"1993":328260,"1994":12085,"1995":146824,"1996":10959,"1997":19220,"1998":175000,"1999":20459,"2000":13636,"2001":108761,"2002":108753}    ]
+
+        labels_graph = []
+        data_graph = []
+            for (var key in traindatas[psuedo]) {           
+                labels_graph.push(key);
+                data_graph.push(traindatas[psuedo][key])
+        }
+        testdatas = [{"2003":157888.7171581793,"2004":173593.4331669968,"2005":174273.1465335492,"2006":172357.7981254923,"2007":174308.1733071173},
+                      {"2003":151855.29852552,"2004":151479.3832727235,"2005":146849.4952686537,"2006":151876.4189009051,"2007":152454.6234633969},
+                      {"2003":110776.2107855784,"2004":132612.2674800422,"2005":136997.6189396075,"2006":136823.2746638005,"2007":137010.7924830007}]
+        test_labels = []
+        test_data = []
+            for (var key in testdatas[psuedo]) {           
+                test_labels.push(key);
+                test_data.push(testdatas[psuedo][key])
+        }
+  </script>
+  <script>
+    var ctx = document.getElementById("wheat");
+    var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels_graph,
+        datasets: [{
+            label: 'Yield',
+            data: data_graph,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+</body>
+
+</html>
